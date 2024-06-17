@@ -56,7 +56,8 @@ func (g *GitGenerator) GenerateParams(appSetGenerator *argoprojiov1alpha1.Applic
 		return nil, EmptyAppSetGeneratorError
 	}
 
-	noRevisionCache := appSet.RefreshRequired()
+	//noRevisionCache := appSet.RefreshRequired()
+	noRevisionCache := true
 
 	var err error
 	var res []map[string]interface{}
