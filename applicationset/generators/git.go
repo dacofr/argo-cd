@@ -57,7 +57,8 @@ func (g *GitGenerator) GenerateParams(appSetGenerator *argoprojiov1alpha1.Applic
 		return nil, EmptyAppSetGeneratorError
 	}
 
-	noRevisionCache := appSet.RefreshRequired()
+	//noRevisionCache := appSet.RefreshRequired()
+	noRevisionCache := true
 
 	var project string
 	if strings.Contains(appSet.Spec.Template.Spec.Project, "{{") {

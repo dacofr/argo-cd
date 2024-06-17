@@ -45,7 +45,6 @@ import (
 
 	"github.com/argoproj/argo-cd/v2/applicationset/generators"
 	"github.com/argoproj/argo-cd/v2/applicationset/utils"
-	"github.com/argoproj/argo-cd/v2/common"
 	"github.com/argoproj/argo-cd/v2/util/db"
 	"github.com/argoproj/argo-cd/v2/util/glob"
 
@@ -293,24 +292,6 @@ func (r *ApplicationSetReconciler) Reconcile(ctx context.Context, req ctrl.Reque
 					Type:    argov1alpha1.ApplicationSetConditionResourcesUpToDate,
 					Message: err.Error(),
 					Reason:  argov1alpha1.ApplicationSetReasonDeleteApplicationError,
-					Status:  argov1alpha1.ApplicationSetConditionStatusTrue,
-				}, parametersGenerated,
-			)
-			return ctrl.Result{}, err
-		}
-	}
-
-	if applicationSetInfo.RefreshRequired() {
-		delete(applicationSetInfo.Annotations, common.AnnotationApplicationSetRefresh)
-		err := r.Client.Update(ctx, &applicationSetInfo)
-		if err != nil {
-			logCtx.Warnf("error occurred while updating ApplicationSet: %v", err)
-			_ = r.setApplicationSetStatusCondition(ctx,
-				&applicationSetInfo,
-				argov1alpha1.ApplicationSetCondition{
-					Type:    argov1alpha1.ApplicationSetConditionErrorOccurred,
-					Message: err.Error(),
-					Reason:  argov1alpha1.ApplicationSetReasonRefreshApplicationError,
 					Status:  argov1alpha1.ApplicationSetConditionStatusTrue,
 				}, parametersGenerated,
 			)
