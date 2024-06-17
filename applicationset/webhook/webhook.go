@@ -361,7 +361,13 @@ func shouldRefreshGitGenerator(gen *v1alpha1.GitGenerator, info *gitGeneratorInf
 }
 
 func shouldRefreshPluginGenerator(gen *v1alpha1.PluginGenerator) bool {
-	return gen != nil
+	// Actual case that do not feat our need
+	//		return gen != nil
+	// possible other alternatives :
+	//		return gen != null && gen.shouldRefreshOnWebhook == true
+	//		return gen != null && GLOBAL_OPTION_WEBHOOK_SHOULD_REFRESH_PLUGIN == true
+	// Our need is to disable refresh plugin generator on webhook
+	return false
 }
 
 func genRevisionHasChanged(gen *v1alpha1.GitGenerator, revision string, touchedHead bool) bool {
